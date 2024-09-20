@@ -1,15 +1,35 @@
 import React, {useState, useEffect} from 'react'
-import {databases} from '../appwriteConfig'
+import {databases, DATABASE_ID, COLLECTION_ID, client} from '../appwriteConfig'
 import { ID, Query } from "appwrite";
+import {Trash2} from 'react-feather';
 
 const Room = () => {
 
     const [messages, setMessages] = useState([]);
     const [messageBody, setMessageBody] = useState("");
 
-    useEffect(() =>{
+    useEffect(() => {
         getMessages();
-    }, []);
+      
+        const unsubscribe = client.subscribe(`databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`, response => {
+
+            if(response.events.includes("databases.*.collections.*.documents.*.create")){
+                console.log('A MESSAGE WAS CREATED')
+                setMessages(prevState => [response.payload, ...prevState])
+            }
+
+            if(response.events.includes("databases.*.collections.*.documents.*.delete")){
+                console.log('A MESSAGE WAS DELETED!!!')
+                setMessages(prevState => prevState.filter(message => message.$id !== response.payload.$id))
+            }
+        });
+
+        console.log('unsubscribe:', unsubscribe)
+      
+        return () => {
+          unsubscribe();
+        };
+      }, []);
 
     const getMessages = async () => {
         const response = await databases.listDocuments(
@@ -40,10 +60,21 @@ const Room = () => {
         );
 
         console.log(response);
-        setMessages([response, ...messages]);
+        // setMessages(prevState => [response, ...messages]);
 
         setMessageBody("");
         
+    }
+
+    const deleteMessage = async (message_id) => {
+        
+        databases.deleteDocument(
+            '66eb7e66000785de8506', // databaseId
+            '66eb7e8b003b890a02da', // collectionId
+            message_id // documentId
+        );
+        setMessages(messages.filter((message) => message.$id !== message_id));
+        // console.log(message_id);
     }
 
 
@@ -73,8 +104,12 @@ const Room = () => {
                     messages.map(message => (
                         <div key={message.$id} className='message--wrapper'>
 
-                            <div className='message--heaedr'>
-                                <small className='message-timestamp'>{message.$createdAt}</small>
+                            <div className='message--header'>
+                                <small className='message-timestamp'>{new Date(message.$createdAt).toLocaleString()}</small>
+
+                                <Trash2 
+                                    className='delete--btn'
+                                    onClick={() => {deleteMessage(message.$id)}}/>
                             </div>
 
                             <div className='message--body'>
