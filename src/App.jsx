@@ -1,5 +1,6 @@
 import './App.css'
 import LoginPage from './pages/LoginPage'
+import { AuthProvider } from './utils/AuthContext'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import PrivateRoutes from './components/PrivateRoutes'
 import Room from './pages/Room'
@@ -8,13 +9,16 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Routes>
-      <Route element = {<PrivateRoutes/>}>
-        <Route path="/" element={<Room />} />
-      </Route>
+      <AuthProvider>
 
-        <Route path="/login" element={<LoginPage />} />
-    </Routes>
+        <Routes>
+          <Route element = {<PrivateRoutes/>}>
+            <Route path="/" element={<Room />} />
+          </Route>
+
+            <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
