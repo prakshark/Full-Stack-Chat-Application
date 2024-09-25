@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {databases, DATABASE_ID, COLLECTION_ID, client} from '../appwriteConfig'
 import { ID, Query } from "appwrite";
 import {Trash2} from 'react-feather';
+import Header from '../components/Header';
 
 const Room = () => {
 
@@ -81,6 +82,8 @@ const Room = () => {
   return (
     <main className='container'>
 
+    <Header/>
+    <div className='room--container'>
         <form id = 'message--form' onSubmit={handleSubmit}>
                 <div>
                     <textarea
@@ -98,7 +101,6 @@ const Room = () => {
                 </div>
         </form>
 
-        <div className='room--container'>
             <div>
                 {
                     messages.map(message => (

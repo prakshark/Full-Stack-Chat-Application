@@ -18,7 +18,7 @@ export const AuthProvider = ({children}) => {
 
     const getUserOnLoad = async () => {
         try{
-            const accountDetails = account.get();
+            const accountDetails = await account.get();
             setUser(accountDetails);
         }catch(error){
             console.log(error);
@@ -32,7 +32,7 @@ export const AuthProvider = ({children}) => {
         try{
             const response = await account.createEmailPasswordSession(credentials.email, credentials.password)
             console.log("Logged In");
-            const accountDetails = account.get();
+            const accountDetails = await account.get();
             setUser(accountDetails);
             navigate('/');
         }catch(error){
@@ -41,9 +41,15 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    const handleUserLogout = async () => {
+        await account.deleteSession("current")
+        setUser(null);
+    }
+
     const contextData = {
         user,
         handleUserLogin,
+        handleUserLogout,
     }
 
     return <AuthContext.Provider value = {contextData}>
