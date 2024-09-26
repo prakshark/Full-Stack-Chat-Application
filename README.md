@@ -7,4 +7,14 @@
 - User persistence
 - Almost 0s-Delay in chat updation
 
+ Live preview available at the end of readme.md
+
+  ![Screenshot 1](./temp1.png)   
+  
+  ![Screenshot 2](./temp2.png)    
+  
+  ![Screenshot 3](./temp3.png)
+  
+
+
 - [Live Preview](https://openspeak.vercel.app/)
