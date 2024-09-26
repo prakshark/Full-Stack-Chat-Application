@@ -1,8 +1,10 @@
-# React + Vite
+# OpenSpeak Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## This is a single room global chat application to provide censorship free plaform for group communication.
 
-Currently, two official plugins are available:
+- User Registration through authentication
+- User Login through email and password
+- User persistence
+- Almost 0s-Delay in chat updation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Live Preview](https://openspeak.vercel.app/)
