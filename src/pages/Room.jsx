@@ -41,7 +41,7 @@ const Room = () => {
             "66eb7e8b003b890a02da",
             [
                 Query.orderDesc("$createdAt"),
-                Query.limit(5)
+                Query.limit(100)
             ]
         )
         console.log(response.documents);
